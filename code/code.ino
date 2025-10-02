@@ -3,6 +3,7 @@
 #include "PID.h"
 #include "Motor.h"
 #include "Straight.h"
+#include "Turn.h"
 
 MPU imu;
 PID pid(5.0, 0.05, 0.023);
@@ -24,8 +25,14 @@ void setup() {
     }
 
     motors.init();
-    goStraight(255, 7.0);   // go straight at speed 200 for 7 seconds
+    goStraight(255, 7.0);   // go straight at speed 255 for 7 seconds
     delay(500);
+
+    // Example turns - uncomment or change as needed
+    pivotTurnDegrees(90);    // pivot +90 degrees (CCW)
+    delay(500);
+    // pivotTurnDegrees(-90); // pivot -90 degrees (CW)
+    // delay(500);
 }
 
 unsigned long lastTime = 0;
