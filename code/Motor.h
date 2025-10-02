@@ -30,12 +30,8 @@ public:
 
 private:
     int AIN1, AIN2, BIN1, BIN2;
-    const int deadband = 10; // ignore very small PWM to prevent twitch
 
     void setMotor(int in1, int in2, int pwm) {
-        // Apply deadband
-        if (abs(pwm) < deadband) pwm = 0;
-
         pwm = constrain(pwm, -255, 255);
 
         if (pwm > 0) {

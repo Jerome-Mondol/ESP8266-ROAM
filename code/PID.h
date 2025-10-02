@@ -1,25 +1,42 @@
+
 #ifndef PID_H
 #define PID_H
 
 class PID {
 public:
-    PID(float p, float i, float d) : kp(p), ki(i), kd(d) { reset(); }
+  float kp, kd, ki;
+  float error, derivative, integral, previouserror;
 
-    float compute(float input, float target = 0) {
-        error = target - input;
-        integral += error;
-        derivative = error - previousError;
-        previousError = error;
-        return kp * error + ki * integral + kd * derivative;
-    }
+  PID(float p, float i, float d) {
+    setconstant(p, i, d);
+    reset();
+  }
 
-    void reset() {
-        error = derivative = integral = previousError = 0;
+  void setconstant(float p, float i, float d) {
+    if (p < 0 || i < 0 || d < 0) {
+      kp = 1.0;
+      kd = 1.0;
+      ki = 1.0;
     }
+    kp = p;
+    kd = d;
+    ki = i;
+  }
+
+  float compute(float input, float target = 0) {
+    error = target - input;
+    integral += error;
+    derivative = error - previouserror;
+    previouserror = error;
+
+    return kp * error + ki * integral + kd * derivative;
+  }
+
+  void reset() {
+    error = derivative = integral = previouserror = 0;
+  }
 
 private:
-    float kp, ki, kd;
-    float error, derivative, integral, previousError;
 };
 
 #endif
